@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Didáctica</title>
+    <link rel="stylesheet" href="style.css?v=2">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Barra de progreso de lectura -->
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+
+<!-- ===== CALCULADORA ===== -->
+<div class="glass-container">
+    <h1>Matemáticas 🧮</h1>
+    <p class="subtitle">Aprende Suma y Resta</p>
+
+    <div class="inputs-container">
+        <div class="input-group">
+            <label for="numA">Número A</label>
+            <input type="number" id="numA" placeholder="Ej: 5">
+        </div>
+        <div class="input-group">
+            <label for="numB">Número B</label>
+            <input type="number" id="numB" placeholder="Ej: 3">
+        </div>
+    </div>
+
+    <div class="buttons-container">
+        <button id="btn-sumar" class="btn primary-btn">+ Sumar</button>
+        <button id="btn-restar" class="btn secondary-btn">− Restar</button>
+    </div>
+
+    <div class="result-box">
+        <span id="result-label">Resultado:</span>
+        <span id="result-value" data-empty="true">&mdash;</span>
+    </div>
+    <div id="error-message" class="error-hidden">Por favor, ingresa números válidos.</div>
+</div>
+
+<!-- ===== TUTORIAL ===== -->
+<section class="tutorial-section">
+
+    <div class="tutorial-divider"><span>📚 Tutorial — Aprende a escribir pruebas paso a paso</span></div>
+
+    <!-- Navegación sticky -->
+    <nav class="tut-nav">
+        <a class="tut-pill active" href="#t1"><span class="tpn">1</span> ¿Qué es una prueba?</a>
+        <a class="tut-pill" href="#t2"><span class="tpn">2</span> ¿Qué necesitas?</a>
+        <a class="tut-pill" href="#t3"><span class="tpn">3</span> El código que probamos</a>
+        <a class="tut-pill" href="#t4"><span class="tpn">4</span> Tu primera prueba</a>
+        <a class="tut-pill" href="#t5"><span class="tpn">5</span> Organizar pruebas</a>
+        <a class="tut-pill" href="#t6"><span class="tpn">6</span> Comparadores</a>
+        <a class="tut-pill" href="#t7"><span class="tpn">7</span> Ejecutar y leer</a>
+        <a class="tut-pill" href="#t8"><span class="tpn">8</span> Cuestionario</a>
+    </nav>
+
+    <!-- PASO 1 -->
+    <div class="tut-step" id="t1">
+        <div class="tut-step-header">
+            <div class="tut-num">1</div>
+            <div>
+                <h2>¿Qué es una prueba y para qué sirve?</h2>
+                <p>Primero entiende el <em>por qué</em> antes de ver código.</p>
+            </div>
+        </div>
+
+        <div class="tut-callout tut-callout-info">
+            <div class="tut-callout-icon">🍕</div>
+            <div class="tut-callout-body">
+                <strong>Piénsalo así</strong><br>
+                Imagina que tienes una receta para hacer pizza. Cada vez que la sigues, ¿cómo sabes que el resultado fue correcto?<br>
+                Las pruebas hacen lo mismo con tu código: comprueban automáticamente que una función hace lo que debe hacer.
+            </div>
+        </div>
+
+        <div class="tut-grid" style="margin-top:20px">
+            <div class="tut-card">
+                <h3>🔴 Sin pruebas</h3>
+                <p>Cambias una línea de código, abres el navegador, escribes números a mano y ves si el resultado se ve bien. Lento y te puedes equivocar.</p>
+            </div>
+            <div class="tut-card">
+                <h3>🟢 Con pruebas (Jest)</h3>
+                <p>Escribes los casos <strong>una sola vez</strong>. Luego, con un solo comando, Jest verifica en segundos que todo funciona bien.</p>
+            </div>
+        </div>
+
+        <div class="tut-flow" style="margin-top:20px">
+            <div class="tut-flow-step"><span class="fi">✏️</span>Escribes<br>código</div>
+            <div class="tut-flow-arrow">→</div>
+            <div class="tut-flow-step fs-accent"><span class="fi">🧪</span>Ejecutas<br><code>npm test</code></div>
+            <div class="tut-flow-arrow">→</div>
+            <div class="tut-flow-step fs-green"><span class="fi">✅</span>Todo<br>correcto</div>
+            <div class="tut-flow-arrow" style="color:#8892b0">ó</div>
+            <div class="tut-flow-step fs-red"><span class="fi">❌</span>Hay un<br>error</div>
+        </div>
+
+        <div class="tut-callout tut-callout-tip" style="margin-top:20px">
+            <div class="tut-callout-icon">📌</div>
+            <div class="tut-callout-body">
+                <strong>En resumen</strong><br>
+                Una <strong>prueba</strong> es un pequeño programa que llama a tu función con valores conocidos y comprueba que el resultado sea el correcto.
+            </div>
+        </div>
+    </div>
+
+    <!-- PASO 2 -->
+    <div class="tut-step" id="t2">
+        <div class="tut-step-header">
+            <div class="tut-num">2</div>
+            <div>
+                <h2>¿Qué necesitas para empezar?</h2>
+                <p>Solo dos archivos y un comando de instalación.</p>
+            </div>
+        </div>
+
+        <p style="color:#8892b0;margin-bottom:14px">Estos son los archivos del proyecto:</p>
+
+        <div class="tut-grid">
+            <div class="tut-card">
+                <h3>📄 math.js</h3>
+                <p>Tu código real: las funciones <code>sumar()</code> y <code>restar()</code> que queremos probar.</p>
+            </div>
+            <div class="tut-card">
+                <h3>🧪 math.test.js</h3>
+                <p>El archivo de pruebas. Jest lo detecta automáticamente porque termina en <code>.test.js</code>.</p>
+            </div>
+        </div>
+
+        <p style="color:#c8d3e8;margin:20px 0 10px;font-weight:600">📦 Instala Jest — solo hazlo una vez:</p>
+        <div class="tut-terminal">
+            <div class="tut-terminal-bar"><div class="tdot tdot-r"></div><div class="tdot tdot-y"></div><div class="tdot tdot-g"></div></div>
+            <div class="tut-terminal-body">
+                <div><span class="tp">$</span><span class="tc"> npm install --save-dev jest</span></div>
+                <div style="color:#8892b0;font-size:0.85rem;margin-top:6px"># Esto descarga Jest y lo guarda en package.json</div>
+            </div>
+        </div>
+
+        <p style="color:#c8d3e8;margin:16px 0 10px;font-weight:600">⚙️ Revisa tu <code>package.json</code>:</p>
+        <div class="tut-code">
+            <div class="tut-code-header"><span>📄 package.json</span><span class="lb">JSON</span></div>
+            <pre><code><span class="pun">{</span>
+  <span class="str">"scripts"</span><span class="pun">: {</span>
+    <span class="str">"test"</span><span class="pun">:</span> <span class="str">"jest"</span>    <span class="cmt">// ← Este es el comando que ejecuta las pruebas</span>
+  <span class="pun">},</span>
+  <span class="str">"devDependencies"</span><span class="pun">: {</span>
+    <span class="str">"jest"</span><span class="pun">:</span> <span class="str">"^29.7.0"</span>  <span class="cmt">// ← Jest instalado como herramienta de desarrollo</span>
+  <span class="pun">}</span>
+<span class="pun">}</span></code></pre>
+        </div>
+
+        <div class="tut-callout tut-callout-info">
+            <div class="tut-callout-icon">💡</div>
+            <div class="tut-callout-body">
+                <strong>¿Por qué <code>devDependencies</code>?</strong><br>
+                Jest es solo para desarrolladores. Los usuarios de tu app no lo necesitan, por eso va en <code>devDependencies</code> (dependencias de desarrollo).
+            </div>
+        </div>
+    </div>
+
+    <!-- PASO 3 -->
+    <div class="tut-step" id="t3">
+        <div class="tut-step-header">
+            <div class="tut-num">3</div>
+            <div>
+                <h2>El código que vamos a probar</h2>
+                <p>Antes de escribir pruebas, entiende bien qué hace el código.</p>
+            </div>
+        </div>
+
+        <p style="color:#8892b0;margin-bottom:14px">Este es el archivo <code>math.js</code> con comentarios explicados línea por línea:</p>
+
+        <div class="tut-code">
+            <div class="tut-code-header"><span>📄 math.js — explicado</span><span class="lb">JS</span></div>
+            <pre><code><span class="cmt">// 1️⃣ Definimos la función sumar con dos parámetros: a y b</span>
+<span class="kw">function</span> <span class="fn">sumar</span><span class="pun">(</span><span class="var">a</span><span class="pun">,</span> <span class="var">b</span><span class="pun">) {</span>
+
+  <span class="cmt">// 2️⃣ Number() convierte el valor a número</span>
+  <span class="cmt">//    Ejemplo: Number("5") → 5   |   Number("hola") → NaN</span>
+  <span class="kw">const</span> <span class="var">numA</span> <span class="pun">=</span> <span class="fn">Number</span><span class="pun">(</span><span class="var">a</span><span class="pun">);</span>
+  <span class="kw">const</span> <span class="var">numB</span> <span class="pun">=</span> <span class="fn">Number</span><span class="pun">(</span><span class="var">b</span><span class="pun">);</span>
+
+  <span class="cmt">// 3️⃣ isNaN() detecta si la conversión falló (NaN = "Not a Number")</span>
+  <span class="kw">if</span> <span class="pun">(</span><span class="fn">isNaN</span><span class="pun">(</span><span class="var">numA</span><span class="pun">) ||</span> <span class="fn">isNaN</span><span class="pun">(</span><span class="var">numB</span><span class="pun">)) {</span>
+    <span class="cmt">// 4️⃣ Si no son números, lanzamos un error con un mensaje claro</span>
+    <span class="kw">throw</span> <span class="kw">new</span> <span class="fn">Error</span><span class="pun">(</span><span class="str">"Entrada inválida: deben ser números."</span><span class="pun">);</span>
+  <span class="pun">}</span>
+
+  <span class="cmt">// 5️⃣ Si todo está bien, devolvemos la suma</span>
+  <span class="kw">return</span> <span class="var">numA</span> <span class="pun">+</span> <span class="var">numB</span><span class="pun">;</span>
+<span class="pun">}</span>
+
+<span class="cmt">// La función restar() funciona igual, pero con resta</span>
+<span class="kw">function</span> <span class="fn">restar</span><span class="pun">(</span><span class="var">a</span><span class="pun">,</span> <span class="var">b</span><span class="pun">) {</span>
+  <span class="kw">const</span> <span class="var">numA</span> <span class="pun">=</span> <span class="fn">Number</span><span class="pun">(</span><span class="var">a</span><span class="pun">);</span>
+  <span class="kw">const</span> <span class="var">numB</span> <span class="pun">=</span> <span class="fn">Number</span><span class="pun">(</span><span class="var">b</span><span class="pun">);</span>
+  <span class="kw">if</span> <span class="pun">(</span><span class="fn">isNaN</span><span class="pun">(</span><span class="var">numA</span><span class="pun">) ||</span> <span class="fn">isNaN</span><span class="pun">(</span><span class="var">numB</span><span class="pun">)) {</span>
+    <span class="kw">throw</span> <span class="kw">new</span> <span class="fn">Error</span><span class="pun">(</span><span class="str">"Entrada inválida: deben ser números."</span><span class="pun">);</span>
+  <span class="pun">}</span>
+  <span class="kw">return</span> <span class="var">numA</span> <span class="pun">-</span> <span class="var">numB</span><span class="pun">;</span>
+<span class="pun">}</span>
+
+<span class="cmt">// 6️⃣ Exportamos las funciones para que math.test.js pueda usarlas</span>
+<span class="kw">module</span><span class="pun">.</span><span class="var">exports</span> <span class="pun">= {</span> <span class="var">sumar</span><span class="pun">,</span> <span class="var">restar</span> <span class="pun">};</span></code></pre>
+        </div>
+
+        <div class="tut-callout tut-callout-tip">
+            <div class="tut-callout-icon">✅</div>
+            <div class="tut-callout-body">
+                <strong>Lo importante</strong><br>
+                <code>sumar(5, 3)</code> debe devolver <strong>8</strong>.<br>
+                <code>sumar("hola", 2)</code> debe lanzar un <strong>error</strong>.<br>
+                Nuestras pruebas verificarán exactamente esto.
+            </div>
+        </div>
+    </div>
+
+    <!-- PASO 4 -->
+    <div class="tut-step" id="t4">
+        <div class="tut-step-header">
+            <div class="tut-num">4</div>
+            <div>
+                <h2>Tu primera prueba, explicada línea por línea</h2>
+                <p>Una prueba tiene solo tres partes. Veámoslas una por una.</p>
+            </div>
+        </div>
+
+        <div class="tut-callout tut-callout-info" style="margin-bottom:18px">
+            <div class="tut-callout-icon">🔤</div>
+            <div class="tut-callout-body">
+                <strong>Primero: importa las funciones</strong><br>
+                Al inicio del archivo <code>math.test.js</code>, necesitas traer las funciones de <code>math.js</code>:
+                <div style="margin-top:8px;background:#0d1117;border-radius:6px;padding:10px 14px;font-family:monospace;font-size:0.88rem;color:#58a6ff">
+                    const { sumar, restar } = require('./math');
+                </div>
+            </div>
+        </div>
+
+        <p style="color:#c8d3e8;margin-bottom:14px;font-weight:600">Ahora veamos una prueba completa:</p>
+
+        <div class="tut-anatomy">
+            <pre>
+<span class="cmt">// ─────────────────────────────────────────────────────</span>
+<span class="cmt">// PARTE 1: El nombre de la prueba (aparece en la consola)</span>
+<span class="cmt">// ─────────────────────────────────────────────────────</span>
+<span class="fn">test</span><span class="pun">(</span><span class="str">'S1: Suma de dos números positivos'</span><span class="pun">, () => {</span>
+  <span class="cmt">//   ↑ Texto descriptivo: di QUÉ se está probando</span>
+
+  <span class="cmt">// ─────────────────────────────────────────────────</span>
+  <span class="cmt">// PARTE 2: Llamamos a la función con valores conocidos</span>
+  <span class="cmt">// ─────────────────────────────────────────────────</span>
+  <span class="kw">const</span> <span class="var">resultado</span> <span class="pun">=</span> <span class="fn">sumar</span><span class="pun">(</span><span class="num">6</span><span class="pun">,</span> <span class="num">3</span><span class="pun">);</span>
+  <span class="cmt">//                       ↑  ↑ Entradas que nosotros controlamos</span>
+
+  <span class="cmt">// ─────────────────────────────────────────────────</span>
+  <span class="cmt">// PARTE 3: Verificamos que el resultado es el correcto</span>
+  <span class="cmt">// ─────────────────────────────────────────────────</span>
+  <span class="fn">expect</span><span class="pun">(</span><span class="var">resultado</span><span class="pun">).</span><span class="call">toBe</span><span class="pun">(</span><span class="num">9</span><span class="pun">);</span>
+  <span class="cmt">//  ↑ "Espero que..."  ↑ "...sea igual a 9"</span>
+
+<span class="pun">});</span>
+<span class="cmt">// Si llega aquí sin error → ✅ Prueba PASADA
+// Si .toBe() detecta algo distinto → ❌ Prueba FALLIDA</span></pre>
+        </div>
+
+        <div class="tut-grid" style="margin-top:16px">
+            <div class="tut-card">
+                <h3>📝 <code>test('nombre', () => { })</code></h3>
+                <p>El primer argumento es el nombre. El segundo es una función flecha <code>() => {}</code> que contiene la prueba. Si la función no lanza errores, la prueba pasa.</p>
+            </div>
+            <div class="tut-card">
+                <h3>🔍 <code>expect(valor).toBe(esperado)</code></h3>
+                <p>Es como decir: <em>"Espero que <strong>resultado</strong> sea exactamente <strong>9</strong>"</em>. Si no coincide, Jest lo reporta como fallo.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PASO 5 -->
+    <div class="tut-step" id="t5">
+        <div class="tut-step-header">
+            <div class="tut-num">5</div>
+            <div>
+                <h2>Organiza tus pruebas con <code>describe()</code></h2>
+                <p>Cuando tienes muchas pruebas, <code>describe()</code> las agrupa para que el reporte sea más claro.</p>
+            </div>
+        </div>
+
+        <div class="tut-callout tut-callout-info" style="margin-bottom:18px">
+            <div class="tut-callout-icon">📁</div>
+            <div class="tut-callout-body">
+                <strong>Piénsalo como carpetas</strong><br>
+                <code>describe()</code> es como una <strong>carpeta</strong> que agrupa pruebas relacionadas.<br>
+                <code>test()</code> es el <strong>archivo</strong> dentro de la carpeta, donde está la prueba real.
+            </div>
+        </div>
+
+        <div class="tut-code">
+            <div class="tut-code-header"><span>📄 math.test.js — estructura completa</span><span class="lb">JS</span></div>
+            <pre><code><span class="kw">const</span> <span class="pun">{</span> <span class="var">sumar</span><span class="pun">,</span> <span class="var">restar</span> <span class="pun">} =</span> <span class="fn">require</span><span class="pun">(</span><span class="str">'./math'</span><span class="pun">);</span>
+
+<span class="cmt">// 📦 describe PADRE: agrupa toda la suite de pruebas</span>
+<span class="fn">describe</span><span class="pun">(</span><span class="str">'Operaciones Matemáticas Básicas'</span><span class="pun">, () => {</span>
+
+  <span class="cmt">// 📂 describe HIJO: agrupa solo las pruebas de sumar()</span>
+  <span class="fn">describe</span><span class="pun">(</span><span class="str">'Función sumar()'</span><span class="pun">, () => {</span>
+
+    <span class="fn">test</span><span class="pun">(</span><span class="str">'S1: Suma de dos números positivos'</span><span class="pun">, () => {</span>
+      <span class="fn">expect</span><span class="pun">(</span><span class="fn">sumar</span><span class="pun">(</span><span class="num">6</span><span class="pun">,</span> <span class="num">3</span><span class="pun">)).</span><span class="call">toBe</span><span class="pun">(</span><span class="num">9</span><span class="pun">);</span>    <span class="cmt">// 6 + 3 = 9 ✓</span>
+    <span class="pun">});</span>
+
+    <span class="fn">test</span><span class="pun">(</span><span class="str">'S2: Suma con el cero'</span><span class="pun">, () => {</span>
+      <span class="fn">expect</span><span class="pun">(</span><span class="fn">sumar</span><span class="pun">(</span><span class="num">8</span><span class="pun">,</span> <span class="num">0</span><span class="pun">)).</span><span class="call">toBe</span><span class="pun">(</span><span class="num">8</span><span class="pun">);</span>    <span class="cmt">// 8 + 0 = 8 ✓</span>
+    <span class="pun">});</span>
+
+  <span class="pun">});</span> <span class="cmt">// ← fin de describe('Función sumar()')</span>
+
+  <span class="cmt">// 📂 describe HIJO: agrupa solo las pruebas de restar()</span>
+  <span class="fn">describe</span><span class="pun">(</span><span class="str">'Función restar()'</span><span class="pun">, () => {</span>
+
+    <span class="fn">test</span><span class="pun">(</span><span class="str">'R1: Resta normal'</span><span class="pun">, () => {</span>
+      <span class="fn">expect</span><span class="pun">(</span><span class="fn">restar</span><span class="pun">(</span><span class="num">10</span><span class="pun">,</span> <span class="num">4</span><span class="pun">)).</span><span class="call">toBe</span><span class="pun">(</span><span class="num">6</span><span class="pun">);</span>  <span class="cmt">// 10 - 4 = 6 ✓</span>
+    <span class="pun">});</span>
+
+  <span class="pun">});</span> <span class="cmt">// ← fin de describe('Función restar()')</span>
+
+<span class="pun">});</span> <span class="cmt">// ← fin de describe PADRE</span></code></pre>
+        </div>
+
+        <div class="tut-callout tut-callout-tip">
+            <div class="tut-callout-icon">✅</div>
+            <div class="tut-callout-body">
+                <strong>Regla fácil de recordar</strong><br>
+                <code>describe()</code> → <strong>organiza</strong> (como una carpeta).<br>
+                <code>test()</code> → <strong>verifica</strong> (hace la comprobación real).<br>
+                Un <code>describe()</code> puede tener varios <code>test()</code> adentro.
+            </div>
+        </div>
+    </div>
+
+    <!-- PASO 6 -->
+    <div class="tut-step" id="t6">
+        <div class="tut-step-header">
+            <div class="tut-num">6</div>
+            <div>
+                <h2>Los comparadores (matchers) que más usarás</h2>
+                <p><code>expect(resultado).comparador(valorEsperado)</code> — hay uno para cada situación.</p>
+            </div>
+        </div>
+
+        <div class="tut-table-wrap">
+            <table class="tut-table">
+                <thead>
+                    <tr><th>Comparador</th><th>¿Para qué sirve?</th><th>Ejemplo</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>.toBe(valor)</code></td>
+                        <td>Comprueba que el resultado es <strong>exactamente igual</strong>. Úsalo para números y textos simples.</td>
+                        <td><code>expect(sumar(6,3)).toBe(9)</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>.toBeCloseTo(n)</code></td>
+                        <td>Para decimales. En JS, <code>0.1 + 0.2</code> no es exactamente <code>0.3</code>, por eso usamos este.</td>
+                        <td><code>expect(sumar(0.1,0.2)).toBeCloseTo(0.3)</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>.toThrow()</code></td>
+                        <td>Comprueba que la función <strong>lanzó un error</strong>. Úsalo siempre envuelto en <code>() =></code>.</td>
+                        <td><code>expect(() => sumar("hola",2)).toThrow()</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>.toEqual(obj)</code></td>
+                        <td>Compara <strong>objetos o arrays</strong> campo por campo.</td>
+                        <td><code>expect({a:1}).toEqual({a:1})</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tut-callout tut-callout-warn" style="margin-top:20px">
+            <div class="tut-callout-icon">⚠️</div>
+            <div class="tut-callout-body">
+                <strong>El caso especial de los decimales</strong><br>
+                Si escribes <code>0.1 + 0.2</code> en la consola de JavaScript verás:<br>
+                <code style="background:#0d1117;padding:2px 6px;border-radius:4px">0.30000000000000004</code><br>
+                Por eso <strong>nunca uses <code>.toBe(0.3)</code> con decimales</strong>. Usa <code>.toBeCloseTo(0.3)</code>.
+            </div>
+        </div>
+
+        <p style="color:#c8d3e8;margin:20px 0 10px;font-weight:600">¿Cómo probar que un error se lanza?</p>
+        <div class="tut-code">
+            <div class="tut-code-header"><span>📄 math.test.js — probar errores</span><span class="lb">JS</span></div>
+            <pre><code><span class="cmt">// ❌ INCORRECTO — Jest no puede capturar el error así:</span>
+<span class="fn">expect</span><span class="pun">(</span><span class="fn">sumar</span><span class="pun">(</span><span class="str">"hola"</span><span class="pun">,</span> <span class="num">2</span><span class="pun">)).</span><span class="call">toThrow</span><span class="pun">();</span>
+
+<span class="cmt">// ✅ CORRECTO — envuelve la función en () => para que Jest capture el error:</span>
+<span class="fn">expect</span><span class="pun">(</span><span class="pun">() =></span> <span class="fn">sumar</span><span class="pun">(</span><span class="str">"hola"</span><span class="pun">,</span> <span class="num">2</span><span class="pun">)).</span><span class="call">toThrow</span><span class="pun">();</span>
+<span class="cmt">//          ↑ La función flecha "envuelve" la llamada para atrapar el error</span></code></pre>
+        </div>
+    </div>
+
+    <!-- PASO 7 -->
+    <div class="tut-step" id="t7">
+        <div class="tut-step-header">
+            <div class="tut-num">7</div>
+            <div>
+                <h2>Ejecuta las pruebas y lee los resultados</h2>
+                <p>Solo necesitas un comando. Aprende a interpretar lo que aparece en la terminal.</p>
+            </div>
+        </div>
+
+        <p style="color:#c8d3e8;margin-bottom:10px;font-weight:600">▶️ Paso 1 — Abre la terminal y escribe:</p>
+        <div class="tut-terminal">
+            <div class="tut-terminal-bar"><div class="tdot tdot-r"></div><div class="tdot tdot-y"></div><div class="tdot tdot-g"></div></div>
+            <div class="tut-terminal-body"><span class="tp">$</span><span class="tc"> npm test</span></div>
+        </div>
+
+        <p style="color:#c8d3e8;margin:20px 0 10px;font-weight:600">📗 Resultado cuando todo pasa (lo que quieres ver):</p>
+        <div class="tut-terminal">
+            <div class="tut-terminal-bar"><div class="tdot tdot-r"></div><div class="tdot tdot-y"></div><div class="tdot tdot-g"></div></div>
+            <div class="tut-terminal-body">
+                <div><span class="tp">$</span><span class="tc"> npm test</span></div>
+                <div>&nbsp;</div>
+                <div><span class="tpass">PASS</span> <span class="tc">math.test.js</span>  <span style="color:#8892b0">← El archivo pasó todas las pruebas</span></div>
+                <div><span class="tinfo">  Operaciones Matemáticas Básicas</span></div>
+                <div><span class="tinfo">    Función sumar()</span></div>
+                <div><span class="tpass">      ✓ S1: Suma de dos números positivos</span>  <span style="color:#8892b0">← ✓ = pasó</span></div>
+                <div><span class="tpass">      ✓ S2: Suma con el cero</span></div>
+                <div><span class="tpass">      ✓ S3: Suma de negativos</span></div>
+                <div><span class="tpass">      ✓ S4: Suma de decimales</span></div>
+                <div><span class="tpass">      ✓ S5: Entradas como texto numérico</span></div>
+                <div><span class="tpass">      ✓ Manejo de errores: texto no numérico</span></div>
+                <div><span class="tinfo">    Función restar()</span></div>
+                <div><span class="tpass">      ✓ R1: R2: R3: R4: ...</span></div>
+                <div>&nbsp;</div>
+                <div><span class="tbold tpass">Tests: 10 passed, 10 total</span>  <span style="color:#8892b0">← Resumen final</span></div>
+                <div><span class="tinfo">Time:  0.842 s</span></div>
+            </div>
+        </div>
+
+        <p style="color:#c8d3e8;margin:20px 0 10px;font-weight:600">📕 Resultado cuando algo falla (Jest te dice exactamente qué falló):</p>
+        <div class="tut-terminal">
+            <div class="tut-terminal-bar"><div class="tdot tdot-r"></div><div class="tdot tdot-y"></div><div class="tdot tdot-g"></div></div>
+            <div class="tut-terminal-body">
+                <div><span class="tfail">FAIL</span> <span class="tc">math.test.js</span></div>
+                <div><span class="tfail">  ● Función sumar() › S1: Suma de dos números positivos</span></div>
+                <div>&nbsp;</div>
+                <div><span class="tinfo">    expect(received).toBe(expected)</span></div>
+                <div><span class="tfail">    Expected: 9</span>   <span style="color:#8892b0">← Lo que esperabas</span></div>
+                <div><span class="tpass">    Received: 63</span>  <span style="color:#8892b0">← Lo que llegó ("6" + 3 se concatenó)</span></div>
+                <div>&nbsp;</div>
+                <div><span class="tbold tfail">Tests: 1 failed, 9 passed, 10 total</span></div>
+            </div>
+        </div>
+
+        <div class="tut-grid" style="margin-top:16px">
+            <div class="tut-card">
+                <h3>✅ PASS (verde)</h3>
+                <p>Todas las pruebas del archivo pasaron. El símbolo <code>✓</code> aparece junto a cada prueba que pasó.</p>
+            </div>
+            <div class="tut-card">
+                <h3>❌ FAIL (rojo)</h3>
+                <p>Al menos una falló. Jest muestra el <strong>valor esperado</strong> vs el <strong>valor recibido</strong>, y la línea exacta del error.</p>
+            </div>
+        </div>
+
+        <div class="tut-callout tut-callout-tip" style="margin-top:16px">
+            <div class="tut-callout-icon">👀</div>
+            <div class="tut-callout-body">
+                <strong>Modo automático — re-ejecuta al guardar</strong><br>
+                Si quieres que Jest ejecute las pruebas automáticamente cada vez que guardes un archivo, usa:
+                <div style="margin-top:8px;background:#0d1117;border-radius:6px;padding:10px 14px;font-family:monospace;font-size:0.88rem;color:#58a6ff">
+                    npx jest --watch
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PASO 8: QUIZ -->
+    <div class="tut-step" id="t8">
+        <div class="tut-step-header">
+            <div class="tut-num">8</div>
+            <div>
+                <h2>Pon a prueba lo que aprendiste</h2>
+                <p>Cuatro preguntas rápidas. Haz clic en la respuesta que creas correcta.</p>
+            </div>
+        </div>
+
+        <div class="tut-quiz">
+            <h3>Pregunta 1 de 4</h3>
+            <p class="tq-q">¿Qué hace <code>expect(sumar(6, 3)).toBe(9)</code>?</p>
+            <div class="tq-opts" data-correct="b">
+                <div class="tq-opt" data-val="a"><span class="tq-letter">A</span> Guarda el resultado en una variable llamada <code>resultado</code>.</div>
+                <div class="tq-opt" data-val="b"><span class="tq-letter">B</span> Llama a <code>sumar(6, 3)</code> y verifica que el resultado sea exactamente <code>9</code>. Si es diferente, la prueba falla.</div>
+                <div class="tq-opt" data-val="c"><span class="tq-letter">C</span> Imprime el número 9 en la consola.</div>
+            </div>
+            <div class="tq-feedback"></div>
+        </div>
+
+        <div class="tut-quiz">
+            <h3>Pregunta 2 de 4</h3>
+            <p class="tq-q">Quieres probar que <code>sumar("hola", 2)</code> lanza un error. ¿Cómo lo escribes correctamente?</p>
+            <div class="tq-opts" data-correct="c">
+                <div class="tq-opt" data-val="a"><span class="tq-letter">A</span> <code>expect(sumar("hola", 2)).toThrow()</code></div>
+                <div class="tq-opt" data-val="b"><span class="tq-letter">B</span> <code>test(sumar("hola", 2))</code></div>
+                <div class="tq-opt" data-val="c"><span class="tq-letter">C</span> <code>expect(() => sumar("hola", 2)).toThrow()</code></div>
+            </div>
+            <div class="tq-feedback"></div>
+        </div>
+
+        <div class="tut-quiz">
+            <h3>Pregunta 3 de 4</h3>
+            <p class="tq-q">¿Para qué sirve <code>describe()</code> en el archivo de pruebas?</p>
+            <div class="tq-opts" data-correct="a">
+                <div class="tq-opt" data-val="a"><span class="tq-letter">A</span> Para agrupar pruebas relacionadas y que el reporte sea más fácil de leer.</div>
+                <div class="tq-opt" data-val="b"><span class="tq-letter">B</span> Para ejecutar las pruebas dos veces seguidas.</div>
+                <div class="tq-opt" data-val="c"><span class="tq-letter">C</span> Para importar las funciones de <code>math.js</code>.</div>
+            </div>
+            <div class="tq-feedback"></div>
+        </div>
+
+        <div class="tut-quiz">
+            <h3>Pregunta 4 de 4</h3>
+            <p class="tq-q">Escribes <code>expect(sumar(0.1, 0.2)).toBe(0.3)</code> y la prueba falla. ¿Por qué?</p>
+            <div class="tq-opts" data-correct="b">
+                <div class="tq-opt" data-val="a"><span class="tq-letter">A</span> Porque <code>sumar()</code> tiene un error en el código.</div>
+                <div class="tq-opt" data-val="b"><span class="tq-letter">B</span> Porque en JavaScript <code>0.1 + 0.2</code> no es exactamente <code>0.3</code> (es <code>0.30000000000000004</code>). Debes usar <code>.toBeCloseTo(0.3)</code>.</div>
+                <div class="tq-opt" data-val="c"><span class="tq-letter">C</span> Porque <code>.toBe()</code> no funciona con decimales menores a 1.</div>
+            </div>
+            <div class="tq-feedback"></div>
+        </div>
+    </div>
+
+</section>
+
+<!-- Cargar la lógica matemática antes de la app -->
+<script src="math.js"></script>
+<script src="app.js"></script>
+<script>
+    // Barra de progreso
+    window.addEventListener('scroll', () => {
+        const s = window.scrollY;
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        document.getElementById('progressBar').style.width = (h > 0 ? s / h * 100 : 0) + '%';
+    });
+
+    // Nav activo
+    const tSections = document.querySelectorAll('.tut-step[id]');
+    const tPills = document.querySelectorAll('.tut-pill');
+    const tObs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                tPills.forEach(p => p.classList.remove('active'));
+                const a = document.querySelector(`.tut-pill[href="#${e.target.id}"]`);
+                if (a) { a.classList.add('active'); a.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' }); }
+            }
+        });
+    }, { rootMargin: '-35% 0px -55% 0px' });
+    tSections.forEach(s => tObs.observe(s));
+
+    // Quiz
+    document.querySelectorAll('.tut-quiz').forEach(quiz => {
+        const correct = quiz.querySelector('.tq-opts').dataset.correct;
+        const feedback = quiz.querySelector('.tq-feedback');
+        quiz.querySelectorAll('.tq-opt').forEach(opt => {
+            opt.addEventListener('click', () => {
+                if (quiz.dataset.answered) return;
+                quiz.dataset.answered = '1';
+                const chosen = opt.dataset.val;
+                quiz.querySelectorAll('.tq-opt').forEach(o => {
+                    if (o.dataset.val === correct) o.classList.add('correct');
+                    else if (o.dataset.val === chosen) o.classList.add('wrong');
+                    o.style.cursor = 'default';
+                });
+                feedback.textContent = chosen === correct ? '✅ ¡Correcto! Bien hecho.' : '❌ No es correcto. Lee la respuesta marcada en verde.';
+                feedback.className = 'tq-feedback show ' + (chosen === correct ? 'ok' : 'bad');
+            });
+        });
+    });
+</script>
+</body>
+</html>
